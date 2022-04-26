@@ -92,7 +92,7 @@ Baseline Playground Sims:
 
 - Example 1: square well
     - wavefunctions will be sines and cosines, so solve the SE and fourier decompose to get the coefficients for the first N modes
-    - once fourier coefficients are obtained, matplotlib the results and overlay them onto the square well
+    - once fourier coefficients are obtained, save them in an array to be plotted with matplotlib in the next section
     - perhaps show time evolution of these?
 
 - Example 2: tunneling particle
@@ -104,4 +104,29 @@ Baseline Playground Sims:
     - wavefunction will be a wavepacket, time evolve it with the wiggle factor $e^{iE/\hbar t}$, show dissipation
     - is it even worth showing the non-normalized free particle? probably only interesting if it follows after a $\delta$ potential
     
+- Example 4: quantum harmonic oscillator
+    - wavefunction will be hermite polynomials, derive the coefficients for each mode and then time evolve
+    - save coefficients for each mode for visualization
+    - time evolution?
     
+    
+### Visualizer
+
+This portion will include all the matplotlib code. All of the numpy number crunching should already be done, this section will take finalized arrays and then plot them accordingly.
+
+this section will probably be the most rigid, in order to produce nice plots, the data will be forced to look a certain way
+
+- Example 1: square well
+    - plot potential barriers 
+    - design choice: show each mode on its own subplot in a large grid, or show each mode stacked together on one large plot?
+    
+- Example 2: tunneling particle
+    - plot potential barriers, thickness, perhaps include color
+    - how to identify regions??
+
+- Example 3: free particle
+    - plot wavepacket and then time evolve it!!
+    
+- Example 4: quantum harmonic oscillator
+    - plot potential, show value of k
+    - design choice similar to square well, might want to do subplots since these get very messy
