@@ -48,7 +48,7 @@ Important QuantSim features:
 - experimental parameters
     - [sq well] how many modes to show, if any
     - [sq well] potential well, depth
-    - [tunneling particle] potential barrier height
+    - [tunneling particle] potential barrier height, thickness
     - [free particle] use wavepacket or not
  
  
@@ -56,7 +56,7 @@ Important QuantSim features:
     - m, q, k, E, $\omega$
 
 
-Baseline QuantSims:
+Baseline QuantSims (random values):
 
 - Example 1: square well
     - wavefunction: sines and cosines
@@ -73,5 +73,35 @@ Baseline QuantSims:
 - Example 3: free particle
     - wavefunction: sines and cosines, or wave packet
     - potential: V=0 everywhere
-    - m =2, k = 5, E = 30eV
+    - m = 2, k = 5, E = 30eV
     - show time evolution and dissipation!
+    
+- Example 4: quantum harmonic oscillator 
+    - wavefunction: some stupid polynomial... zernike? hermite? who knows
+    - potential: V=kx^2 baby
+    - m = 2, k = 5, E = 30eV
+    - show time evolution!!
+    
+### QuantSim Playground
+
+Should be easiest implementation, this portion exists to isolate the quantsim objects from the numpy calculations. this script will accept any form of quantsim, and will run a simulation based on the predefined object properties of the quantsim.
+
+This is where experimental parameters are important, the user will define for what values of x and t should the simulation run over, what the dx and dt values will be, and overall control everything that is related to the calculation of the problems.
+
+Baseline Playground Sims:
+
+- Example 1: square well
+    - wavefunctions will be sines and cosines, so solve the SE and fourier decompose to get the coefficients for the first N modes
+    - once fourier coefficients are obtained, matplotlib the results and overlay them onto the square well
+    - perhaps show time evolution of these?
+
+- Example 2: tunneling particle
+    - wavefunctions will be a sine/cosine, or exponential, so solve the TISE in each region
+    - show amplitude/reflection coefficients
+    - need to find a way to identify bound & tunneling regions, perhaps first predefine them and then later on detect them?
+    
+- Example 3: free particle
+    - wavefunction will be a wavepacket, time evolve it with the wiggle factor $e^{iE/\hbar t}$, show dissipation
+    - is it even worth showing the non-normalized free particle? probably only interesting if it follows after a $\delta$ potential
+    
+    
