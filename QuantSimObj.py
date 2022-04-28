@@ -32,60 +32,71 @@ class QuantSim:
 
     Attributes
     ----------
-    wfn : str
-        xx
+    sys : str
+        Possible Values:
+        "1", "Infinite Square Well", "ISW"
+        "2", "Finite Square Well", "FSW"
+        "3", "Quantum Harmonic Oscillator", "QHO"
         
     Methods
     -------
     info(additional=""):
         xx
     """
-    
-    avail_sys = {
-        1 : "Infinite Square Well",
-        2 : "Finite Square Well",
-        3 : "Quantum Harmonic Oscillator",
-    }
 
-    def __init__(self, choice="none"):
+    def __init__(self, choice):
         """
-        Constructs all the necessary attributes for the quantsim object. If no system is specified, asks user to pick a system.
-
+        Python constructor that initializes the quantsim object, only run once!
+        
+        Parameters
+        ----------
+            choice : str
+                str - name/identifier of system, see QuantSim docstring above for possible vals  
+                          %TODO create dict for system names
+        """
+        
+        
+        self.identify_sys(choice)
+        
+        
+    def identify_sys(self, choice="none")
+        """
+        This method will identify the quantum system to be simulated. If no choice is specified on method call, then this method will prompt for user input.
+        
         Parameters
         ----------
             choice : str or int
-                str - name of system, see case below for options  
-                      %TODO create dict for system names
-                int - alternative for str
+                str - name/identifier of system, see QuantSim docstring above for possible vals  
+                          %TODO create dict for system names
           
         """
         
-        # start initialization by determining what system to run
-        # if user does not specify, then choice is "none" and we will prompt
+        # start quantsim initialization by determining what system to run
+        # if user does not specify, then choice defualts to "none" and we will prompt
         if choice == "none":
             choice = input("""Please pick a system to simulate:
                                 \n[1] Infinite Square Well
                                 \n[2] Finite Square Well
-                                \n[3] Quantum Harmonic Oscillator Potential Well
+                                \n[3] Quantum Harmonic Oscillator (Quadratic Potential Well)
                                 \n\n Enter a number from 1-3: """)
             
-        # save choice, whether prespecified or from prompt
-        self.sys = self.avail_sys[choice]
+        # save choice in object param, whether prespecified or from prompt
+        self.sys = choice 
         
         # use if/elif/else to emulate a switch/case and assign correct values
-        if choice == 1 or choice == "Infinite Square Well" or choice == "ISW":
+        if choice in ["1", "Infinite Square Well", "ISW"]:
             self.wfn = "\sqrt(\\frac{L}{2}) sin(k_n x) e^{i E_n t/ \hbar}"
-            self.energy = "\\frac{n^2 \hbar^2 \pi^2}{2 m L^2} "
+            self.energy = "\\frac{n^2 \hbar^2 \pi^2}{2 m L^2}"
             
-        elif choice == 2 or choice == "Finite Square Well" or choice == "FSW":
+        elif choice in ["2", "Finite Square Well", "FSW"]:
             pass
         
-        elif choice == 3 or choice == "Quantum Harmonic Oscillator" or choice == "QHO":
+        elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
             pass
         
         else:
-            print("System not found.")
-            
+            print("System not found. Please retry.")
+            self.set(choice="none")
 
     def info(self):
         """
