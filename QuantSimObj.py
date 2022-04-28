@@ -29,3 +29,52 @@ Important QuantSim features:
     - m, q, k, E, $\omega$
 """
 
+
+class QuantSim:
+    """
+    A class to represent a quantum mechanical system.
+
+    ...
+
+    Attributes
+    ----------
+    wfn : str
+        xx
+        
+    Methods
+    -------
+    info(additional=""):
+        xx
+    """
+
+    def __init__(self, sys_choice="none"):
+        """
+        Constructs all the necessary attributes for the quantsim object. If no system is specified, asks user to pick a system.
+
+        Parameters
+        ----------
+            sys_choice : str or int
+                str corresponding to 
+          
+        """
+        
+     
+            
+
+    def info(self, additional=""):
+        """
+        Prints the person's name and age.
+
+        If the argument 'additional' is passed, then it is appended after the main info.
+
+        Parameters
+        ----------
+        additional : str, optional
+            More info to be displayed (default is None)
+
+        Returns
+        -------
+        None
+        """
+
+        print(f'My name is {self.name} {self.surname}. I am {self.age} years old.' + additional)
