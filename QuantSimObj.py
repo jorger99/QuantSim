@@ -123,6 +123,7 @@ class QuantSim:
         if use_default == "1":
             # determine the system, then set experimental values accordingly
             # start with experimental values shared by all systems
+            # add extra values by dict[key] = value assignment
             
             self.exp_vals = {
                 'mass' : 1,
@@ -130,30 +131,30 @@ class QuantSim:
                 'length' : 1,
             }  
             
+            # go through each system's unique values
             if choice in ["1", "Infinite Square Well", "ISW"]:
                 # no extra parameters
                 pass
         
             elif choice in ["2", "Finite Square Well", "FSW"]:
-                # potential barrier height
+                # potential barrier height  (V_0)
                 pass
         
             elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
-                # quadratic potential coefficient
+                # quadratic potential coefficient K (V = 1/2 K x^2)
                 # 
                 pass
-            
-            
             print("Set experimental values to default. Use quantsim.info() to inspect!")
+            
         elif use_default == "0":
             print("Manual implementation WIP.")
             self.pick_exp_vals()  # restart method
+            
         else:
             print("Invalid entry. Please try again!\n")
             self.pick_exp_vals()  # restart method
         
         
-        # go through each system
         
         
         return 
