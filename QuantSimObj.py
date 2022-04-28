@@ -144,6 +144,9 @@ class QuantSim:
                 # quadratic potential coefficient K (V = 1/2 K x^2)
                 # 
                 pass
+            else:
+                print("\nSystem not found. Please retry.\n")
+
             print("Set experimental values to default. Use quantsim.info() to inspect!")
             
         elif use_default == "0":

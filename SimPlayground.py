@@ -52,41 +52,57 @@ def set_sim_params(quantsim):
     # prompt user for how to choose simulation parameters
     use_default = input("""\nWould you like to enter custom experimental values, or use the default?: 
                            \n    Enter 1 for default, 0 for manual entry: """)
-         if use_default == "1":
-            # determine the system, then set experimental values accordingly
-            # start with experimental values shared by all systems
-            # add extra values by dict[key] = value assignment
-            
-            quantsim.sim_params = {
-                'dx' : quantsim.exp_vals[length]/100,  # 100 data points
-                'dt' : 0.01, 
-            }  
-            
-            # go through each system's unique values
-            if choice in ["1", "Infinite Square Well", "ISW"]:
-                # no extra parameters
-                pass
-        
-            elif choice in ["2", "Finite Square Well", "FSW"]:
-                # no extra parameters
-                pass
-        
-            elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
-                # no extra parameters
-                pass
-            print("Set experimental values to default. Use quantsim.info() to inspect!")
-            
-            
-        elif use_default == "0":
-            print("Manual implementation WIP.")
-            set_sim_params(quantsim)  # restart method
-            
+    if use_default == "1":
+       # determine the system, then set experimental values accordingly
+       # start with experimental values shared by all systems
+       # add extra values by dict[key] = value assignment
+       
+        quantsim.sim_params = {
+           'dx' : quantsim.exp_vals[length]/100,  # 100 data points
+           'dt' : 0.01, 
+        }  
+       
+        # go through each system's unique values
+        if choice in ["1", "Infinite Square Well", "ISW"]:
+            # no extra parameters
+            pass    
+        elif choice in ["2", "Finite Square Well", "FSW"]:
+            # no extra parameters
+            pass    
+        elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
+            # no extra parameters
+            pass
         else:
-            print("Invalid entry. Please try again!\n")
-            set_sim_params(quantsim) # restart method
+            print("\nSystem not found. Please retry.\n")
+            set_sim_params(quantsim)  # restart method
+           
+    print("Set experimental values to default. Use quantsim.info() to inspect!")
+        
+        
+    elif use_default == "0":
+        print("Manual implementation WIP.")
+        set_sim_params(quantsim)  # restart method
+        
+    else:
+        print("Invalid entry. Please try again!\n")
+        set_sim_params(quantsim) # restart method
         
             
     return 
+
+''' begin simulation methods '''
+
+def InfSqWell(quantsim):
+    
+    return
+
+def FinSqWell(quantsim):
+    
+    return
+
+def ParabSqWell(quantsim):
+    
+    return
 
 def simulate(quantsim):
     """
@@ -103,5 +119,19 @@ def simulate(quantsim):
     
     """
     
-   
+    if choice in ["1", "Infinite Square Well", "ISW"]:
+        sim_soln = InfSqWell(quantsim)
+        pass
+
+    elif choice in ["2", "Finite Square Well", "FSW"]:
+        sim_soln = FinSqWell(quantsim)
+        pass
+
+    elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
+        sim_soln = ParabSqWell(quantsim)
+        pass
+    
+    else:
+        print("\nSystem not found. Please reinitialize object.\n")
+    
     return
