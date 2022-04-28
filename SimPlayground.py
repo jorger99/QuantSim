@@ -96,8 +96,27 @@ def set_sim_params(quantsim):
 ''' begin simulation methods '''
 
 def InfSqWell(quantsim):
+    L = quantsim.exp_vals['length']
+    dx = quantsim.sim_params['dx']
+    num_of_wfns = quantsim.sim_params['num_modes']
+    wfn_solns = []
     
-    return
+    # save x_vals to object, choose num to include end point
+    # want 0 to 10, 0.1 steps; note that num = 10.1/0.1 = 101 data points, [0, 10.1)
+    x_vals = np.linspace(0, L, num=(L+dx) / dx)  
+    
+    # make arrays of constants for each unique wfn
+    n_array = np.arange(1, num_of_wfns+1)  # 1 to n+1 to include end point :)
+    kn_array = np.pi * n_array / L
+
+    for kn in kn_array:
+        wfn_solns.append(np.sqrt(L/2) * np.sin(kn * quantsim.x_vals))
+    
+    # save useful arrays in sim_param dict
+    quantsim.sim_params['x_vals'] = x_vals
+    quantsim.sim_params['kn_array'] = kn_array
+    
+    return wfn_solns
 
 def FinSqWell(quantsim):
     
@@ -108,6 +127,7 @@ def ParabSqWell(quantsim):
     return
 
 def simulate(quantsim):
+    
     """
     This method will perform numpy calculations to simulate the correct equations for each physical system. Equations and wavefunctions are hardcoded in.
     
@@ -121,17 +141,19 @@ def simulate(quantsim):
         
     
     """
+    choice = quantsim.sys
     
     if choice in ["1", "Infinite Square Well", "ISW"]:
-        sim_soln = InfSqWell(quantsim)
+        wfn_soln = InfSqWell(quantsim)
+        quantsim.soln = wfn_soln
         pass
 
     elif choice in ["2", "Finite Square Well", "FSW"]:
-        sim_soln = FinSqWell(quantsim)
+        quantsim.soln = FinSqWell(quantsim)
         pass
 
     elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
-        sim_soln = ParabSqWell(quantsim)
+        quantsim.soln = ParabSqWell(quantsim)
         pass
     
     else:
