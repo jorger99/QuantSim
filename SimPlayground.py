@@ -58,25 +58,28 @@ def set_sim_params(quantsim):
        # add extra values by dict[key] = value assignment
        
         quantsim.sim_params = {
-           'dx' : quantsim.exp_vals[length]/100,  # 100 data points
+           'dx' : quantsim.exp_vals['length']/100,  # 100 data points
            'dt' : 0.01, 
         }  
        
         # go through each system's unique values
         if choice in ["1", "Infinite Square Well", "ISW"]:
-            # no extra parameters
-            pass    
+            quantsim.sim_params['num_modes'] = 3  # number of modes
+            quantsim.sim_params['do_animate'] = True
+        
         elif choice in ["2", "Finite Square Well", "FSW"]:
             # no extra parameters
             pass    
+        
         elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
             # no extra parameters
             pass
+        
         else:
             print("\nSystem not found. Please retry.\n")
             set_sim_params(quantsim)  # restart method
            
-    print("Set experimental values to default. Use quantsim.info() to inspect!")
+        print("\nSet simulation parameters to default. Use quantsim.info() to inspect!")
         
         
     elif use_default == "0":

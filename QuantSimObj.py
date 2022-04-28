@@ -48,6 +48,7 @@ class QuantSim:
         self.wfn = None
         self.energy = None
         self.exp_vals = None
+        self.sim_params = None
         
         # begin by identifying quantum system
         self.identify_sys()
@@ -65,7 +66,6 @@ class QuantSim:
                           %TODO create dict for system names
           
         """
-        
         # start quantsim initialization by determining what system to run
         # if user does not specify, then choice defualts to "none" and we will prompt
         if choice == "none":
@@ -147,7 +147,7 @@ class QuantSim:
             else:
                 print("\nSystem not found. Please retry.\n")
 
-            print("Set experimental values to default. Use quantsim.info() to inspect!")
+            print("\nSet experimental values to default. Use quantsim.info() to inspect!")
             
         elif use_default == "0":
             print("Manual implementation WIP.")
@@ -177,11 +177,12 @@ class QuantSim:
         None
         """
         
-        print("\nReporting info:")
-        print("-----------------")
+        print("\nReporting Quantsim Object info:")
+        print("------ Obj {} -----------".format(1))
         print("System chosen: " + str(self.sys))
         print("Wavefunction: " + str(self.wfn))
         print("Energy Levels: " + str(self.energy))
         print("Experimental Values:", self.exp_vals)
+        print("Simulation Parameters:", self.sim_params)
         
 
