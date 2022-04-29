@@ -99,63 +99,6 @@ class QuantSim:
             self.identify_sys()  # run this method again with default param
 
             
-    def pick_exp_vals(self):
-        """
-        creates an experimental value dictionary based on the system choice, saves this dictionary as an object parameter
-        
-        Parameters
-        ----------
-            choice : str or int
-                str - name/identifier of system, see QuantSim docstring above for possible vals  
-        
-        Returns
-        -------
-        None
-        
-        """
-        choice = self.sys
-        
-        # prompt user for how to choose experimental values
-        use_default = input("""\nWould you like to enter custom experimental values, or use the default?: 
-                                \n    Enter 1 for default, 0 for manual entry: """)
-        
-        # use if/elif to choose value picking mode
-        if use_default == "1":
-            # determine the system, then set experimental values accordingly
-            # start with experimental values shared by all systems
-            # add extra values by dict[key] = value assignment
-            
-            self.exp_vals = {
-                'mass' : 1,  
-                'energy' : 1, 
-                'length' : 12, 
-            }  
-            
-            # go through each system's unique values
-            if choice in ["1", "Infinite Square Well", "ISW"]:
-                # no extra parameters
-                pass
-            elif choice in ["2", "Finite Square Well", "FSW"]:
-                # potential barrier height  (V_0)
-                pass
-            elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
-                # quadratic potential coefficient K (V = 1/2 K x^2)
-                self.exp_vals['force_constant_k'] = 3
-                pass
-            else:
-                print("\nSystem not found. Please retry.\n")
-
-            print("\nSet experimental values to default. Use quantsim.info() to inspect!")
-            
-        elif use_default == "0":
-            print("Manual implementation WIP.")
-            self.pick_exp_vals()  # restart method
-        else:
-            print("Invalid entry. Please try again!\n")
-            self.pick_exp_vals()  # restart method
-        
-        return 
-
     def set_sim_params(self):
         """ 
         This method will prompt user for simulation parameters.
@@ -181,6 +124,9 @@ class QuantSim:
            # add extra values by dict[key] = value assignment
 
             self.sim_params = {
+               'mass' : 1,  
+               'energy' : 1, 
+               'length' : 12, 
                'dx' : 0.05,  # 100 data points
                'dt' : 0.01, 
             }  
@@ -194,6 +140,7 @@ class QuantSim:
                 pass    
             elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
                 self.sim_params['num_modes'] = 3  # number of modes
+                self.sim_params['force_constant_k'] = 3
                 pass
             else:
                 print("\nSystem not found. Please retry.\n")

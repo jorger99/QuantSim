@@ -40,8 +40,8 @@ def InfSqWell(quantsim):
             the squares of each wavefunction amplitude, this gives a normalized probability density.
     
     """
-    L = quantsim.exp_vals['length']
-    m = quantsim.exp_vals['mass']
+    L = quantsim.sim_params['length']
+    m = quantsim.sim_params['mass']
     dx = quantsim.sim_params['dx']
     num_of_wfns = quantsim.sim_params['num_modes']
     wfn_solns, prob_densities, energy_levels = [], [], []
@@ -78,9 +78,9 @@ def ParabSqWell(quantsim):
         herm_coeffs[n] = 1
         return np.polynomial.hermite.hermval(xi, herm_coeffs)
     
-    L = quantsim.exp_vals['length']
-    m = quantsim.exp_vals['mass']
-    k = quantsim.exp_vals['force_constant_k']
+    L = quantsim.sim_params['length']
+    m = quantsim.sim_params['mass']
+    k = quantsim.sim_params['force_constant_k']
     dx = quantsim.sim_params['dx']
     num_of_wfns = quantsim.sim_params['num_modes']
     
@@ -132,7 +132,6 @@ def simulate(quantsim):
         
     Returns
     -------
-        
     
     """
     choice = quantsim.sys
@@ -171,8 +170,8 @@ def plot_func(quantsim):
         for n, wfn in enumerate(wfn_list):
             ax.plot(x_vals, wfn, label=n)
         
-        plt.vlines([0, quantsim.exp_vals['length']], min(quantsim.soln[1]), max(quantsim.soln[1]))
-        plt.hlines(min(quantsim.soln[1]), 0, quantsim.exp_vals['length'])
+        plt.vlines([0, quantsim.sim_params['length']], min(quantsim.soln[1]), max(quantsim.soln[1]))
+        plt.hlines(min(quantsim.soln[1]), 0, quantsim.sim_params['length'])
         pass
     
     elif choice in ["2", "Finite Square Well", "FSW"]:
@@ -182,7 +181,7 @@ def plot_func(quantsim):
         for n, wfn in enumerate(wfn_list):
             ax.plot(x_vals, wfn, label="{:.1f} $\hbar \omega$".format(energy_levels[n]))
         
-        L = quantsim.exp_vals['length']
+        L = quantsim.sim_params['length']
         plt.vlines([-L, L], -max(quantsim.soln[0]), max(quantsim.soln[0]))
         plt.hlines(-max(quantsim.soln[0]), -L, L)
         ax.set_xlim([-12, 12])
