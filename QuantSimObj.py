@@ -126,9 +126,9 @@ class QuantSim:
             # add extra values by dict[key] = value assignment
             
             self.exp_vals = {
-                'mass' : 1,
+                'mass' : 1,  
                 'energy' : 1, 
-                'length' : 1,
+                'length' : 12, 
             }  
             
             # go through each system's unique values
@@ -181,7 +181,7 @@ class QuantSim:
            # add extra values by dict[key] = value assignment
 
             self.sim_params = {
-               'dx' : self.exp_vals['length']/100,  # 100 data points
+               'dx' : 0.05,  # 100 data points
                'dt' : 0.01, 
             }  
 
@@ -193,7 +193,7 @@ class QuantSim:
                 # no extra parameters
                 pass    
             elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
-                # no extra parameters
+                self.sim_params['num_modes'] = 3  # number of modes
                 pass
             else:
                 print("\nSystem not found. Please retry.\n")
