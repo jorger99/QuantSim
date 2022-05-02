@@ -100,8 +100,9 @@ class QuantSim:
             print("\nInfinite Square Well chosen.")
         
         elif choice in ["2", "Quantum Harmonic Oscillator", "QHO"]:
-            self.wfn = "\ "
-            self.energy = " "        
+            self.wfn = "\frac{1}{/sqrt{2^n n!}} (\frac{m \omega}{\pi \hbar})^{\frac{1}{4}} e^{- 
+\frac{m \omega x^2}{2 \hbar} H_n( \sqrt{ \frac{m \omega}{\hbar} x) "
+            self.energy = "(2n + 1) \frac {\hbar \omega} {2}"        
             print("\nQuantum Harmonic Oscillator in a Parabolic Square Well chosen.")
         
         else:
