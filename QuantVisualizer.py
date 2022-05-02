@@ -34,7 +34,7 @@ def InfSqWell(quantsim):
             the squares of each wavefunction amplitude, this gives a normalized probability density.
     """
     
-    L = int(quantsim.sim_params['length'])
+    L = quantsim.sim_params['length']
     m = quantsim.sim_params['mass']
     dx = quantsim.sim_params['dx']
     num_of_wfns = quantsim.sim_params['num_modes']
@@ -89,11 +89,11 @@ def ParabSqWell(quantsim):
         herm_coeffs[n] = 1
         return np.polynomial.hermite.hermval(x, herm_coeffs)
     
-    L = quantsim.sim_params['length']
-    m = quantsim.sim_params['mass']
-    k = quantsim.sim_params['force_constant_k']
-    dx = quantsim.sim_params['dx']
-    num_of_wfns = quantsim.sim_params['num_modes']
+    L = float(quantsim.sim_params['length'])
+    m = float(quantsim.sim_params['mass'])
+    k = float(quantsim.sim_params['force_constant_k'])
+    dx = float(quantsim.sim_params['dx'])
+    num_of_wfns = int(quantsim.sim_params['num_modes'])
     
     wfn_solns, prob_densities = [], []
 

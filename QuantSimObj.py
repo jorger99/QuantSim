@@ -132,48 +132,52 @@ class QuantSim:
 
         """
         choice = self.sys
-
-        # prompt user for how to choose simulation parameters
-        use_default = input("""\nWould you like to enter custom experimental values, or use the default?: 
-                               \n    Enter 1 for default, 0 for manual entry: """)
         
-        if use_default == "1":
-           # determine the system, then set experimental values accordingly
-           # start with experimental values shared by all systems
-           # add extra values by dict[key] = value assignment
-
-            self.sim_params = {
-               'mass' : 1,  
-               'energy' : 1, 
-               'length' : 12, 
-               'dx' : 0.05,  # 100 data points
-               'dt' : 0.01, 
-            }  
-
-            # go through each system's unique values
-            if choice in ["1", "Infinite Square Well", "ISW"]:
-                self.sim_params['num_modes'] = 3  # number of modes
-            elif choice in ["2", "Finite Square Well", "FSW"]:
-                # no extra parameters
-                pass    
-            elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
-                self.sim_params['num_modes'] = 3  # number of modes
-                self.sim_params['force_constant_k'] = 3
-                pass
-            else:
-                print("\nSystem not found. Please retry.\n")
-                self.set_sim_params()  # restart method
-
-            print("\nSet simulation parameters to default. Use quantsim.info() to inspect!")
-            print("\n" + "~"*100)
-
-        elif use_default == "0":
-            print("Manual implementation WIP.")
+        # default values for simulation
+        self.sim_params = {
+           'mass' : 1,  
+           'energy' : 1, 
+           'length' : 12, 
+           'dx' : 0.05, 
+           'dt' : 0.01, 
+        }  
+        
+        # go through each system's unique values, set defaults
+        if choice in ["1", "Infinite Square Well", "ISW"]:
+            self.sim_params['num_modes'] = 3  # number of modes
+        elif choice in ["2", "Finite Square Well", "FSW"]:
+            # no extra parameters
+            pass    
+        elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
+            self.sim_params['num_modes'] = 3  # number of modes
+            self.sim_params['force_constant_k'] = 3
+            pass
+        else:
+            print("\nSystem not found. Please retry.\n")
             self.set_sim_params()  # restart method
+        
+        # prompt user if they want to use default values, but only if it is already set to 0l
+        if use_default == "1":
+            use_default = input("""\nWould you like to enter custom experimental values, or use the default?: 
+                               \n    Enter 1 for default, 0 for manual entry: """)
+        elif use_default == "0":
+            print("Please choose your desired values for the following simulation parameters. Leave blank to keep default value. ")
+            # loop over every existing default key in dict, then prompt for value
+            for key in self.sim_params:
+                user_input = input("    Enter value for {}, default is [{}]. ".format(key, self.sim_params[key]))
+                if user_input == "":   # if input is empty, do not save it to dict
+                    print("        Keeping default {}".format(self.sim_params[key]))
+                else:
+                    print("        Set {} to {}".format(key, user_input))
+                    self.sim_params[key] = float(user_input)
+                    
         else:
             print("Invalid entry. Please try again!\n")
             self.set_sim_params() # restart method
-            
+
+        print("\nFinished setting simulation parameters. Use quantsim.info() to inspect!")
+        print("\n" + "~"*100)
+    
         return 
     
     def info(self):
