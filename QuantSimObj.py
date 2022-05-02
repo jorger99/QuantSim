@@ -51,7 +51,7 @@ class QuantSim:
             returns nothing
     """
 
-    def __init__(self):
+    def __init__(self, choice):
         """
         Python constructor that initializes the quantsim object, only run once!
         
@@ -67,7 +67,8 @@ class QuantSim:
         self.sim_params = None
         
         # begin by identifying quantum system
-        self.identify_sys()
+        print("\n" + "~"*100)
+        self.identify_sys(choice)
         
         
         
@@ -116,7 +117,7 @@ class QuantSim:
 
         return
     
-    def set_sim_params(self):
+    def set_sim_params(self, use_default="1"):
         """ 
         This method will prompt user for simulation parameters.
 
@@ -135,6 +136,7 @@ class QuantSim:
         # prompt user for how to choose simulation parameters
         use_default = input("""\nWould you like to enter custom experimental values, or use the default?: 
                                \n    Enter 1 for default, 0 for manual entry: """)
+        
         if use_default == "1":
            # determine the system, then set experimental values accordingly
            # start with experimental values shared by all systems
@@ -151,7 +153,6 @@ class QuantSim:
             # go through each system's unique values
             if choice in ["1", "Infinite Square Well", "ISW"]:
                 self.sim_params['num_modes'] = 3  # number of modes
-                self.sim_params['do_animate'] = True
             elif choice in ["2", "Finite Square Well", "FSW"]:
                 # no extra parameters
                 pass    
@@ -164,6 +165,7 @@ class QuantSim:
                 self.set_sim_params()  # restart method
 
             print("\nSet simulation parameters to default. Use quantsim.info() to inspect!")
+            print("\n" + "~"*100)
 
         elif use_default == "0":
             print("Manual implementation WIP.")
@@ -188,12 +190,12 @@ class QuantSim:
         None
         """
         
-        print("\nReporting Quantsim Object info:")
+        print("\nReporting self.info()!:")
         print("------ Obj {} -----------".format(1))
         print("System chosen: " + str(self.sys))
         print("Wavefunction: " + str(self.wfn))
         print("Energy Levels: " + str(self.energy))
-        print("Experimental Values:", self.exp_vals)
         print("Simulation Parameters:", self.sim_params)
+        print("\n" + "~"*100)
         
 

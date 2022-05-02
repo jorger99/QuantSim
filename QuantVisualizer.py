@@ -34,7 +34,7 @@ def InfSqWell(quantsim):
             the squares of each wavefunction amplitude, this gives a normalized probability density.
     """
     
-    L = quantsim.sim_params['length']
+    L = int(quantsim.sim_params['length'])
     m = quantsim.sim_params['mass']
     dx = quantsim.sim_params['dx']
     num_of_wfns = quantsim.sim_params['num_modes']
@@ -42,7 +42,7 @@ def InfSqWell(quantsim):
     
     # save x_vals to object, choose num to include end point
     # want 0 to 10, 0.1 steps; note that num = 10.1/0.1 = 101 data points, [0, 10.1)
-    x_vals = np.linspace(0, L, num=(L+dx) / dx)  
+    x_vals = np.linspace(0, L, num=int((L+dx) / dx))  
     
     # make arrays of constants for each unique wfn
     n_array = np.arange(1, num_of_wfns+1)  # 1 to n+1 to include end point :)
@@ -197,27 +197,33 @@ def plot_func(quantsim):
     L = quantsim.sim_params['length']
     
     # begin selective plotting
+    # ISW
     if choice in ["1", "Infinite Square Well", "ISW"]:
         # plot every wfn solution saved
         for n, wfn in enumerate(wfn_list):
-            ax.plot(x_vals, wfn, label=n)
+            ax.plot(x_vals, wfn, label="n={}".format(n))
         
         # draw well boundaries abusing the fact that the wfns always
         # are attached to walls
-        plt.vlines([0, L], min(quantsim.soln[1]), max(quantsim.soln[1]))
-        plt.hlines(min(quantsim.soln[1]), 0, L)
+        plt.vlines([0, L], min(quantsim.soln[1]), max(quantsim.soln[1]), color='k')
+        plt.hlines(min(quantsim.soln[1]), 0, L, color='k')
     
+    
+    # FSW
     elif choice in ["2", "Finite Square Well", "FSW"]:
         pass
     
+    
+    # QHO
     elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
         for n, wfn in enumerate(wfn_list):
             ax.plot(x_vals, wfn, label="{:.1f} $\hbar \omega$".format(energy_levels[n]))
         
-        plt.vlines([-L, L], -max(quantsim.soln[0]), max(quantsim.soln[0]))
-        plt.hlines(-max(quantsim.soln[0]), -L, L)
+        plt.vlines([-L, L], -max(quantsim.soln[0]), max(quantsim.soln[0]), color='k')
+        plt.hlines(-max(quantsim.soln[0]), -L, L, color='k')
         ax.set_xlim([-12, 12])
         ax.set_ylim([-1, 1])
+        ax.set_title("Quantum Harmonic Oscillator")
     
     else:
         print("\nSystem not found. Please reinitialize object.\n")
