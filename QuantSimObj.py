@@ -1,37 +1,54 @@
 """
-A 'Quantsim' is an object created from the QuantumSimulationObject class defined in the QuantSimObj.py file. This function has its own .py file in order to isolate and define the quantum objects prior to being experimented on.
+A 'Quantsim' is an object created from the QuantSim class defined in this QuantSimObj.py file. I chose to develop this class inside of its own .py file in order to isolate the object-oriented programming from the physics numpy calculations. If I were to take this project further, I would be able to finish the class and leave it be as I use it to develop other software. For example, I am using this class to do simple quantum potential simulations, but in the future I could use this class in some kind of quantum canonical ensemble simulation (performance withstanding..)
 
-Important QuantSim features:
-
-- wavefunction $(\Psi)$ definition [assumed potential]
-    - harmonic modes [sq. well]  
-    - tunneling particle [V = 0]
-    - non-normalized free particle [V != $\inf$]
-    - wave packet free particle [V != $\inf$
- 
- 
-- experimental values: 
-    - m, q, k, E, $\omega$
 """
 
 class QuantSim:
     """
-    A class to represent a quantum mechanical system.
+    A class that defines a single object representing a single quantum mechanical system.
 
-    ...
 
     Attributes
     ----------
     sys : str
-        Possible Values:
+        Possible Values:     %TODO define possible values in a dictionary
         "1", "Infinite Square Well", "ISW"
         "2", "Finite Square Well", "FSW"
         "3", "Quantum Harmonic Oscillator", "QHO"
         
+    wfn : str
+        latex equation for given wavefunction
+        
+    energy : str
+        latex equation for energy levels of system
+        
+    sim_params : dict
+        dictionary containing all the simulation parameters, e.g. mass, well depth, energy...
+    
     Methods
     -------
-    info(additional=""):
-        xx
+    identify_sys
+        this method will prompt the user to choose the quantum system they would like to simulate
+        inputs:  self, choice
+            self - quantsim object
+            choice - equivalent to self.sys, this is the system this object represents
+        outputs:
+            returns nothing
+            
+    set_sim_params
+        this method will prompt the user to input values for the quantum system simulation
+        inputs: self
+            self - quantsim object
+        outputs:
+            updates self.sim_params dictionary with appropriate values for given self.sys
+            returns nothing
+            
+    info
+        this method will make the object print several lines about the information it has gathered about its given quantum system
+        inputs: self
+            self - quantsim object
+        outputs:
+            returns nothing
     """
 
     def __init__(self):
@@ -47,7 +64,6 @@ class QuantSim:
         # initialize object params to avoid AttributeErrors
         self.wfn = None
         self.energy = None
-        self.exp_vals = None
         self.sim_params = None
         
         # begin by identifying quantum system
@@ -98,7 +114,8 @@ class QuantSim:
             print("\nSystem not found. Please retry.\n")
             self.identify_sys()  # run this method again with default param
 
-            
+        return
+    
     def set_sim_params(self):
         """ 
         This method will prompt user for simulation parameters.
