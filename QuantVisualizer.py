@@ -1,5 +1,4 @@
 """ 
-
 This portion exists to isolate the quantsim object creation from numpy calculations. this script will accept any form of quantsim, and will run a simulation based on the predefined object properties of the quantsim.
 
 This is where simulation parameters are important, the user will define for what values of x and t should the simulation run over, what the dx and dt values will be, and overall control everything that is related to the simulation of the system. The simulation parameters will also include values such as the mass of the particle, its energy level, the depth and length of well, and so on.
@@ -60,10 +59,6 @@ def InfSqWell(quantsim):
     
     return wfn_solns, prob_densities
 
-def FinSqWell(quantsim):
-    
-    return
-
 def ParabSqWell(quantsim):
     """
     This method will take a quantsim object set to QHO (parabolic square well) and calculate the wavefunction with probability densities.
@@ -89,12 +84,14 @@ def ParabSqWell(quantsim):
         herm_coeffs[n] = 1
         return np.polynomial.hermite.hermval(x, herm_coeffs)
     
-    L = float(quantsim.sim_params['length'])
-    m = float(quantsim.sim_params['mass'])
-    k = float(quantsim.sim_params['force_constant_k'])
-    dx = float(quantsim.sim_params['dx'])
-    num_of_wfns = int(quantsim.sim_params['num_modes'])
+    # extract values from sim_params
+    L = quantsim.sim_params['length']
+    m = quantsim.sim_params['mass']
+    k = quantsim.sim_params['force_constant_k']
+    dx = quantsim.sim_params['dx']
+    num_of_wfns = quantsim.sim_params['num_modes']
     
+    # init empty arrays
     wfn_solns, prob_densities = [], []
 
     x_vals = np.arange(-L, L, dx) 
@@ -154,13 +151,8 @@ def simulate(quantsim):
         soln, prob_dens = InfSqWell(quantsim)
         quantsim.soln = soln
         quantsim.prob_dens = prob_dens
-        pass
 
-    elif choice in ["2", "Finite Square Well", "FSW"]:
-        quantsim.soln = FinSqWell(quantsim)
-        pass
-
-    elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
+    elif choice in ["2", "Quantum Harmonic Oscillator", "QHO"]:
         soln, prob_dens = ParabSqWell(quantsim)
         quantsim.soln = soln
         quantsim.prob_dens = prob_dens
@@ -210,12 +202,8 @@ def plot_func(quantsim):
         plt.vlines([0, L], min(quantsim.soln[1]), max(quantsim.soln[1]), color='k', linewidth=4)
         plt.hlines(min(quantsim.soln[1]), 0, L, color='k', linewidth=4)
     
-    # FSW
-    elif choice in ["2", "Finite Square Well", "FSW"]:
-        pass
-    
     # QHO
-    elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
+    elif choice in ["2", "Quantum Harmonic Oscillator", "QHO"]:
         
         for n, wfn in enumerate(wfn_list):
             ax.plot(x_vals, wfn, label="{:.1f} $\hbar \omega$".format(energy_levels[n]))

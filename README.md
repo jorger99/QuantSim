@@ -1,18 +1,20 @@
-# PROJECT TITLE
+# Quantum Simulation Suite - QuantSim!
 
 ## Project Summary
 
-yeet
+This project was started for the purpose of Spring 2022 PHYS5070 Computational Physics. I set out to practice my library development skills to make my future code projects more modular and easy to use. We've all run into the classic problem of being handed an important code from ~5 years ago that runs over 1200 lines and you're expected to become an expert of exactly where everything is. 
 
-## Code Workflow
+I got my inspiration for using classes in this way from how contemporary libraries like Pandas and Scipy like to give you objects with self-contained methods.
 
-three main code sections that will interface with each other
+I'd like to expand this project in the future to have more quantum systems, more flexible parameter tweaking, and eventually host this on a Github Pages website. Also, the object class and the methods associated with the object are separated into two files for pretty much no reason besides it helped me to code it that way.
 
-- 'quantsim' objects defined via python class, self-contained quantum simulations
+## Project Workflow
 
-- 'playground' where quantsims will be run through a user-defined set of experiments
+This project has two main code sections that will interface with each other.
 
-- 'visualizer' is the front end where quantsims will be plotted, either before or after their simulations are run
+- The QuantSimObj.py file creates 'quantsim' objects defined via python class, these are self-contained quantum system simulations
+
+- The QuantSimVisualizer.py file contains several methods where quantsims will be run through a user-defined set of experiments, and then will be plotted.
 
 ideal usage:
 
@@ -22,17 +24,16 @@ ideal usage:
     - wave packet should show static wfn $\Psi(t=0)$
 
 
-2) quantsim object fed to playground, experimental & simulation parameters are read, wavefunction is detected and then appropriate TISE is applied
-    - honestly, TISE should be established as a property of quantsim obj, determining the correct one would be difficult
-
-
-3) quantsim object now has data for visualizer to plot. this is the most difficult part since different quantum problems have different solutions. 
+2) quantsim object fed to playground, experimental & simulation parameters are read, wavefunction is detected and then appropriate TISE is applied. Then, since quantsim object now has data for visualizer to plot, feed it into a plotting function and see the results. 
     - square well should show an X amount of harmonic modes
     - tunneling particle should show the potential, exponential & harmonic wavefunctions, and transmission/reflection amplitudes
     - wave packet should show time evolution and dissipation
 
+## Project Outline
 
-### Quantsims
+The rest of this README.md contains the outline I wrote for this project. A lot of the features are unimplemented, but I saved this here for future reference.
+
+#### Quantsims
 
 A "Quantsim" is an object created from the QuantumSimulationObject class defined in the QuantSimObj.py file. This function has its own .py file in order to isolate and define the quantum objects prior to being experimented on.
 
@@ -50,39 +51,22 @@ Important QuantSim features:
     - [sq well] potential well, depth
     - [tunneling particle] potential barrier height, thickness
     - [free particle] use wavepacket or not
- 
- 
-- simulation values: 
     - m, q, k, E, $\omega$
 
 
-Baseline QuantSims (random values):
+Current Example QuantSims (random values):
 
 - Example 1: square well
     - wavefunction: sines and cosines
     - potential: V=$\inf$ at x=0, x=L, V=0 elsewhere
     - m = 2, k = 5, E = 32eV
     
-    
-- Example 2: tunneling particle
-    - wavefunction: sines and cosines for trapped, exponential for tunneled
-    - potential: V=60eV at x=L, V=0 elsewhere
-    - m = 2, k = 5, E = 40eV
-    
-    
-- Example 3: free particle
-    - wavefunction: sines and cosines, or wave packet
-    - potential: V=0 everywhere
+- Example 2: quantum harmonic oscillator 
+    - wavefunction: some dumb polynomial... zernike? hermite? who knows
+    - potential: V= 1/2 k x^2 
     - m = 2, k = 5, E = 30eV
-    - show time evolution and dissipation!
     
-- Example 4: quantum harmonic oscillator 
-    - wavefunction: some stupid polynomial... zernike? hermite? who knows
-    - potential: V=kx^2 baby
-    - m = 2, k = 5, E = 30eV
-    - show time evolution!!
-    
-### QuantSim Playground
+#### QuantVisualizer: Simulation
 
 Should be easiest implementation, this portion exists to isolate the quantsim objects from the numpy calculations. this script will accept any form of quantsim, and will run a simulation based on the predefined object properties of the quantsim.
 
@@ -110,7 +94,7 @@ Baseline Playground Sims:
     - time evolution?
     
     
-### Visualizer
+#### QuantVisualizer: Plotting
 
 This portion will include all the matplotlib code. All of the numpy number crunching should already be done, this section will take finalized arrays and then plot them accordingly.
 

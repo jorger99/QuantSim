@@ -51,7 +51,7 @@ class QuantSim:
             returns nothing
     """
 
-    def __init__(self, choice):
+    def __init__(self, choice="none"):
         """
         Python constructor that initializes the quantsim object, only run once!
         
@@ -69,7 +69,7 @@ class QuantSim:
         # begin by identifying quantum system
         print("\n" + "~"*100)
         self.identify_sys(choice)
-        
+        self.set_sim_params()
         
     def identify_sys(self, choice="none"):
         """
@@ -87,9 +87,8 @@ class QuantSim:
         if choice == "none":
             choice = input("""Please pick a system to simulate:
                                 \n[1] Infinite Square Well
-                                \n[2] Finite Square Well
-                                \n[3] Quantum Harmonic Oscillator (Quadratic Potential Well)
-                                \n    Enter a number from 1-3: """)
+                                \n[2] Quantum Harmonic Oscillator (Quadratic Potential Well)
+                                \n    Enter a number from 1-2: """)
             
         # save choice in object param, whether prespecified or from prompt
         self.sys = choice 
@@ -98,17 +97,12 @@ class QuantSim:
         if choice in ["1", "Infinite Square Well", "ISW"]:
             self.wfn = "\sqrt(\\frac{L}{2}) sin(k_n x) e^{i E_n t/ \hbar}"
             self.energy = "\\frac{n^2 \hbar^2 \pi^2}{2 m L^2}"
-            
             print("\nInfinite Square Well chosen.")
-            
-        elif choice in ["2", "Finite Square Well", "FSW"]:
-            print("\nFinite Square Well chosen.")
-            pass
         
-        elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
+        elif choice in ["2", "Quantum Harmonic Oscillator", "QHO"]:
+            self.wfn = "\ "
+            self.energy = " "        
             print("\nQuantum Harmonic Oscillator in a Parabolic Square Well chosen.")
-            pass
-        
         
         else:
             print("\nSystem not found. Please retry.\n")
@@ -139,23 +133,20 @@ class QuantSim:
             'energy' : 1, 
             'length' : 12, 
             'dx' : 0.05, 
-            'dt' : 0.01, 
         }  
         
         # go through each system's unique values, set defaults
         if choice in ["1", "Infinite Square Well", "ISW"]:
-            self.sim_params['num_modes'] = 3  # number of modes
-            self.sim_params['xlims'] = [0, 12]  # number of modes
+            self.sim_params['num_modes'] = 4  # number of modes
+            self.sim_params['xlims'] = [0, self.sim_params['length']]  # number of modes
             self.sim_params['ylims'] = [-3, 3]  # number of modes
-            
-        elif choice in ["2", "Finite Square Well", "FSW"]:
-            # no extra parameters
-            pass    
-        elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
+
+        elif choice in ["2", "Quantum Harmonic Oscillator", "QHO"]:
             self.sim_params['num_modes'] = 3  # number of modes
-            self.sim_params['force_constant_k'] = 3
+            self.sim_params['force_constant_k'] = 3  # 1/2 K x^2
             self.sim_params['xlims'] = [-4, 4]  # number of modes
             self.sim_params['ylims'] = [-1, 1.5]  # number of modes
+                                        
         else:
             print("\nSystem not found. Please retry.\n")
             self.set_sim_params()  # restart method
@@ -163,7 +154,7 @@ class QuantSim:
         # double check if user wants to use defaults or not
         if bool(use_default) == True:
             user_input = (input("""\nWould you like to enter custom experimental values, or use the default?: 
-                               \n    Enter 1 if you would like to use custom values, otherwise enter 0 or leave blank. """))
+                               \n    Enter 1 if you would like to specify your own values, otherwise enter 0 for default or leave blank. """))
             if user_input in ["", "0", "False"]:
                 print("\n    Using default values!")
                 use_default = True
@@ -182,7 +173,7 @@ class QuantSim:
                         print("        Set {} to {}".format(key, user_input))
                         self.sim_params[key] = type(self.sim_params[key])(user_input)  # cast to match type!
                     
-        print("\nFinished setting simulation parameters. Use quantsim.info() to inspect!")
+        print("\nFinished setting simulation parameters. Use quantsim.info() to inspect set values. Then, use the QuantSimVisualizer library to qvs.simulate(obj) and qvs.plot_func(obj) to finish!")
         print("\n" + "~"*100)
     
         return 
