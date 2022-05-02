@@ -71,7 +71,6 @@ class QuantSim:
         self.identify_sys(choice)
         
         
-        
     def identify_sys(self, choice="none"):
         """
         This method will identify the quantum system to be simulated. If no choice is specified on method call, then this method will prompt for user input.
@@ -117,6 +116,7 @@ class QuantSim:
 
         return
     
+    
     def set_sim_params(self, use_default=True):
         """ 
         This method will prompt user for simulation parameters.
@@ -135,23 +135,27 @@ class QuantSim:
         
         # default values for simulation
         self.sim_params = {
-           'mass' : 1,  
-           'energy' : 1, 
-           'length' : 12, 
-           'dx' : 0.05, 
-           'dt' : 0.01, 
+            'mass' : 1,  
+            'energy' : 1, 
+            'length' : 12, 
+            'dx' : 0.05, 
+            'dt' : 0.01, 
         }  
         
         # go through each system's unique values, set defaults
         if choice in ["1", "Infinite Square Well", "ISW"]:
             self.sim_params['num_modes'] = 3  # number of modes
+            self.sim_params['xlims'] = [0, 12]  # number of modes
+            self.sim_params['ylims'] = [-3, 3]  # number of modes
+            
         elif choice in ["2", "Finite Square Well", "FSW"]:
             # no extra parameters
             pass    
         elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
             self.sim_params['num_modes'] = 3  # number of modes
             self.sim_params['force_constant_k'] = 3
-            pass
+            self.sim_params['xlims'] = [-4, 4]  # number of modes
+            self.sim_params['ylims'] = [-1, 1.5]  # number of modes
         else:
             print("\nSystem not found. Please retry.\n")
             self.set_sim_params()  # restart method
@@ -170,12 +174,13 @@ class QuantSim:
             print("\nPlease choose your desired values for the following simulation parameters. \nLeave blank to keep default value. ")
             # loop over every existing default key in dict, then prompt for value
             for key in self.sim_params:
-                user_input = input("    Enter value for {}, default is [{}]. ".format(key, self.sim_params[key]))
-                if user_input == "":   # if input is empty, do not save it to dict
-                    print("        Keeping default {}".format(self.sim_params[key]))
-                else:
-                    print("        Set {} to {}".format(key, user_input))
-                    self.sim_params[key] = float(user_input)
+                if key not in ['xlims', 'ylims']:
+                    user_input = input("    Enter value for {}, default is [{}]. ".format(key, self.sim_params[key]))
+                    if user_input == "":   # if input is empty, do not save it to dict
+                        print("        Keeping default {}".format(self.sim_params[key]))
+                    else:
+                        print("        Set {} to {}".format(key, user_input))
+                        self.sim_params[key] = type(self.sim_params[key])(user_input)  # cast to match type!
                     
         print("\nFinished setting simulation parameters. Use quantsim.info() to inspect!")
         print("\n" + "~"*100)
@@ -204,4 +209,5 @@ class QuantSim:
         print("Simulation Parameters:", self.sim_params)
         print("\n" + "~"*100)
         
+        return
 

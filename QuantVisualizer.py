@@ -106,7 +106,7 @@ def ParabSqWell(quantsim):
     w = np.sqrt(k/m)  # ang freq
     E_array = (n_array + 0.5) * hbar * w
     
-    # use this instead of x_vals inside the hermite polynomial
+    # use this scaled x instead of x_vals inside the hermite polynomial
     xi = np.sqrt(m*w/hbar)*x_vals
     
     for n in n_array:
@@ -187,8 +187,10 @@ def plot_func(quantsim):
     """
     # extract system and create plot
     choice = quantsim.sys
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(12,6))
     ax.axis('off')
+    ax.set_ylim(quantsim.sim_params['ylims'])
+    ax.set_xlim(quantsim.sim_params['xlims'])
     
     # take x values, y values, and labels from quantsim object
     x_vals = quantsim.sim_params['x_vals']
@@ -201,28 +203,29 @@ def plot_func(quantsim):
     if choice in ["1", "Infinite Square Well", "ISW"]:
         # plot every wfn solution saved
         for n, wfn in enumerate(wfn_list):
-            ax.plot(x_vals, wfn, label="n={}".format(n))
+            ax.plot(x_vals, wfn, label="n={}".format(n+1))
         
         # draw well boundaries abusing the fact that the wfns always
         # are attached to walls
-        plt.vlines([0, L], min(quantsim.soln[1]), max(quantsim.soln[1]), color='k')
-        plt.hlines(min(quantsim.soln[1]), 0, L, color='k')
-    
+        plt.vlines([0, L], min(quantsim.soln[1]), max(quantsim.soln[1]), color='k', linewidth=4)
+        plt.hlines(min(quantsim.soln[1]), 0, L, color='k', linewidth=4)
     
     # FSW
     elif choice in ["2", "Finite Square Well", "FSW"]:
         pass
     
-    
     # QHO
     elif choice in ["3", "Quantum Harmonic Oscillator", "QHO"]:
+        
         for n, wfn in enumerate(wfn_list):
             ax.plot(x_vals, wfn, label="{:.1f} $\hbar \omega$".format(energy_levels[n]))
         
-        plt.vlines([-L, L], -max(quantsim.soln[0]), max(quantsim.soln[0]), color='k')
-        plt.hlines(-max(quantsim.soln[0]), -L, L, color='k')
-        ax.set_xlim([-12, 12])
-        ax.set_ylim([-1, 1])
+        # plot parabolic potential 
+        K = quantsim.sim_params['force_constant_k']
+        potential = 0.5 * K * x_vals**2
+        ax.plot(x_vals, potential, color='k', linewidth=3)
+        
+        # misc plotting
         ax.set_title("Quantum Harmonic Oscillator")
     
     else:
