@@ -117,7 +117,7 @@ class QuantSim:
 
         return
     
-    def set_sim_params(self, use_default="1"):
+    def set_sim_params(self, use_default=True):
         """ 
         This method will prompt user for simulation parameters.
 
@@ -156,12 +156,18 @@ class QuantSim:
             print("\nSystem not found. Please retry.\n")
             self.set_sim_params()  # restart method
         
-        # prompt user if they want to use default values, but only if it is already set to 0l
-        if use_default == "1":
-            use_default = input("""\nWould you like to enter custom experimental values, or use the default?: 
-                               \n    Enter 1 for default, 0 for manual entry: """)
-        elif use_default == "0":
-            print("Please choose your desired values for the following simulation parameters. Leave blank to keep default value. ")
+        # double check if user wants to use defaults or not
+        if bool(use_default) == True:
+            user_input = (input("""\nWould you like to enter custom experimental values, or use the default?: 
+                               \n    Enter 1 if you would like to use custom values, otherwise enter 0 or leave blank. """))
+            if user_input in ["", "0", "False"]:
+                print("\n    Using default values!")
+                use_default = True
+            else:
+                use_default = False
+                
+        if bool(use_default) == False:
+            print("\nPlease choose your desired values for the following simulation parameters. \nLeave blank to keep default value. ")
             # loop over every existing default key in dict, then prompt for value
             for key in self.sim_params:
                 user_input = input("    Enter value for {}, default is [{}]. ".format(key, self.sim_params[key]))
@@ -171,10 +177,6 @@ class QuantSim:
                     print("        Set {} to {}".format(key, user_input))
                     self.sim_params[key] = float(user_input)
                     
-        else:
-            print("Invalid entry. Please try again!\n")
-            self.set_sim_params() # restart method
-
         print("\nFinished setting simulation parameters. Use quantsim.info() to inspect!")
         print("\n" + "~"*100)
     
